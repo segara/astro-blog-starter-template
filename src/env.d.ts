@@ -1,5 +1,5 @@
-type Runtime = import("@astrojs/cloudflare").Runtime<Env>;
+/// <reference path="../.astro/types.d.ts" />
+/// <reference types="astro/client" />
+/// <reference types="astro-imagetools" />
+declare module "astro-imagetools/components"
 
-declare namespace App {
-  interface Locals extends Runtime {}
-}
