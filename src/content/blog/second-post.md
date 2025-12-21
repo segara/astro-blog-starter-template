@@ -2,7 +2,7 @@
 title: "Second post"
 description: "Lorem ipsum dolor sit amet"
 pubDate: "Jul 15 2022"
-thumbnail: /blog-placeholder-4.jpg
+thumbnail: /src/assets/blog-placeholder-4.jpg
 style:
   template: split
   hero_template: image
