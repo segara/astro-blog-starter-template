@@ -1,0 +1,21 @@
+<svg
+  width="320"
+  height="80"
+  viewBox="0 0 320 80"
+  xmlns="http://www.w3.org/2000/svg"
+  style="overflow: visible;"
+>
+  <text
+    x="50%"
+    y="54%"
+    dominant-baseline="middle"
+    text-anchor="middle"
+    font-family="'Black Han Sans', 'Do Hyeon', sans-serif"
+    font-weight="900"
+    font-size="56"
+    fill="#ff7300"
+    letter-spacing="-3"
+  >
+    백억디자인
+  </text>
+</svg>

@@ -1,0 +1,332 @@
+backend:
+  name: git-gateway
+  branch: main
+
+local_backend: true
+site_url: https://nebulix.unfolding.io
+logo_url: https://nebulix.unfolding.io/logo.svg
+media_folder: src/assets
+public_folder: /src/assets
+search: true
+
+collections:
+  - name: page
+    label: Pages
+    folder: src/content/page
+    create: true
+    format: frontmatter
+    extension: mdx
+    identifier_field: title
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text }
+      - { label: Intro, name: intro, widget: text, required: false }
+      - { label: Featured Image, name: thumbnail, widget: image, required: false }
+      - { label: OG Image, name: og_image, widget: image, required: false }
+      - label: Hero Buttons
+        name: hero_buttons
+        widget: list
+        required: false
+        fields:
+          - { label: Label, name: label, widget: string }
+          - { label: Href, name: href, widget: string }
+          - { label: Color, name: color, widget: string, required: false }
+          - { label: Icon, name: icon, widget: string, required: false }
+          - { label: Icon Only, name: icon_only, widget: boolean, required: false }
+          - { label: Class, name: class_name, widget: string, required: false }
+      - label: Blocks
+        name: blocks
+        widget: list
+        required: false
+        fields:
+          - label: Component
+            name: component
+            widget: select
+            options:
+              - Features
+              - ImageGallery
+              - PricingTable
+              - RecentItems
+              - RichText
+              - ShopCategories
+              - ShopProducts
+              - TextImage
+              - TextMedia
+          - { label: Title, name: title, widget: string, required: false }
+          - { label: Content, name: content, widget: markdown, required: false }
+          - { label: Template, name: template, widget: string, required: false }
+          - { label: Container, name: container, widget: string, required: false }
+          - { label: Surface, name: surface, widget: string, required: false }
+          - { label: Block Class, name: block_class, widget: string, required: false }
+          - { label: Thumbnail, name: thumbnail, widget: image, required: false }
+          - { label: Animate, name: animate, widget: boolean, required: false }
+          - label: Buttons
+            name: buttons
+            widget: list
+            required: false
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Href, name: href, widget: string }
+              - { label: Color, name: color, widget: string, required: false }
+              - { label: Icon, name: icon, widget: string, required: false }
+          - label: Images
+            name: images
+            widget: list
+            required: false
+            fields:
+              - { label: Image, name: image, widget: image }
+              - { label: Title, name: title, widget: string, required: false }
+          - label: Features
+            name: features
+            widget: list
+            required: false
+            fields:
+              - { label: Name, name: name, widget: string, required: false }
+              - { label: Value, name: value, widget: string, required: false }
+              - { label: Content, name: content, widget: markdown, required: false }
+              - { label: Icon, name: icon, widget: string, required: false }
+          - label: Prices
+            name: prices
+            widget: list
+            required: false
+            fields:
+              - { label: Title, name: title, widget: string, required: false }
+              - { label: Intro, name: intro, widget: text, required: false }
+              - { label: Price, name: price, widget: string, required: false }
+              - { label: Price Suffix, name: price_suffix, widget: string, required: false }
+      - label: Style
+        name: style
+        widget: object
+        required: false
+        fields:
+          - { label: Template, name: template, widget: select, options: [full, split], required: false }
+          - { label: Card Template, name: card_template, widget: select, options: [grid, flex], required: false }
+          - { label: Hero Template, name: hero_template, widget: select, options: [plain, image], required: false }
+          - { label: Hero Surface, name: hero_surface, widget: string, required: false }
+          - { label: Hero Image Opacity, name: hero_image_opacity, widget: string, required: false }
+          - { label: Container, name: container, widget: select, options: [sm, md, lg, xl, full, none], required: false }
+          - { label: Page Class, name: page_class, widget: string, required: false }
+          - { label: Content Class, name: content_class, widget: string, required: false }
+          - { label: Block Class, name: block_class, widget: string, required: false }
+          - { label: Hero Class, name: hero_class, widget: string, required: false }
+      - { label: Body, name: body, widget: markdown, required: false }
+
+  - name: posts
+    label: Blog
+    folder: src/content/blog
+    create: true
+    format: frontmatter
+    extension: mdx
+    identifier_field: title
+    fields:
+      - label: Tags
+        name: tag
+        widget: list
+        required: false
+        field: { label: Tag, name: tag, widget: string }
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text, required: false }
+      - { label: Intro, name: intro, widget: text, required: false }
+      - { label: Featured Image, name: thumbnail, widget: image, required: false }
+      - { label: OG Image, name: og_image, widget: image, required: false }
+      - { label: Publication Date, name: pubDate, widget: datetime, required: false }
+      - { label: Body, name: body, widget: markdown, required: false }
+
+  - name: project
+    label: Work
+    folder: src/content/project
+    create: true
+    format: frontmatter
+    extension: mdx
+    identifier_field: title
+    fields:
+      - label: Tags
+        name: tag
+        widget: list
+        required: false
+        field: { label: Tag, name: tag, widget: string }
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text, required: false }
+      - { label: Intro, name: intro, widget: text, required: false }
+      - { label: Featured Image, name: thumbnail, widget: image, required: false }
+      - { label: OG Image, name: og_image, widget: image, required: false }
+      - { label: Publication Date, name: date, widget: datetime, required: false }
+      - label: Features
+        name: features
+        widget: list
+        required: false
+        fields:
+          - { label: Name, name: name, widget: string }
+          - { label: Value, name: value, widget: string }
+      - { label: Body, name: body, widget: markdown, required: false }
+
+  - name: product
+    label: Products
+    folder: src/content/product
+    create: true
+    format: frontmatter
+    extension: mdx
+    identifier_field: title
+    fields:
+      - { label: In Stock, name: in_stock, widget: boolean, required: false }
+      - label: Categories
+        name: category
+        widget: list
+        required: false
+        field: { label: Category, name: category, widget: string }
+      - { label: Price, name: price, widget: number, value_type: float, required: false }
+      - { label: Offer Price, name: offer_price, widget: number, value_type: float, required: false }
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text, required: false }
+      - { label: Intro, name: intro, widget: text, required: false }
+      - { label: Tax Included, name: tax_included, widget: boolean, required: false }
+      - { label: Taxable, name: taxable, widget: boolean, required: false }
+      - { label: Digital Product, name: is_digital, widget: boolean, required: false }
+      - { label: Product ID, name: id, widget: string, required: false }
+      - { label: Featured Image, name: thumbnail, widget: image, required: false }
+      - { label: OG Image, name: og_image, widget: image, required: false }
+      - { label: Publication Date, name: date, widget: datetime, required: false }
+      - { label: Body, name: body, widget: markdown, required: false }
+
+  - name: menu
+    label: Menus
+    folder: src/content/menu
+    create: true
+    format: frontmatter
+    extension: mdx
+    identifier_field: title
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Description, name: description, widget: text, required: false }
+      - { label: Intro, name: intro, widget: text, required: false }
+      - { label: Featured Image, name: thumbnail, widget: image, required: false }
+      - { label: Publication Date, name: date, widget: datetime, required: false }
+      - label: Categories
+        name: categories
+        widget: list
+        required: false
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Intro, name: intro, widget: text, required: false }
+          - label: Menu Items
+            name: menu_items
+            widget: list
+            required: false
+            fields:
+              - { label: Title, name: title, widget: string }
+              - { label: Intro, name: intro, widget: text, required: false }
+              - label: Prices
+                name: price
+                widget: list
+                required: false
+                fields:
+                  - { label: Label, name: label, widget: string, required: false }
+                  - { label: Price, name: price, widget: number, value_type: float, required: false }
+              - { label: Image, name: thumbnail, widget: image, required: false }
+      - { label: Body, name: body, widget: markdown, required: false }
+
+  - name: config
+    label: Settings
+    format: frontmatter
+    extension: mdx
+    files:
+      - name: about
+        label: About
+        file: src/content/config/about.mdx
+        fields:
+          - { label: Site Name, name: sitename, widget: string, required: false }
+          - { label: Intro, name: intro, widget: markdown, required: false }
+          - { label: Footer Text, name: footer_text, widget: markdown, required: false }
+          - { label: Newsletter Text, name: newsletter_text, widget: markdown, required: false }
+      - name: blog
+        label: Blog Settings
+        file: src/content/config/blog.mdx
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Intro, name: intro, widget: markdown, required: false }
+          - { label: Items Per Page, name: per_page, widget: number, value_type: int, required: false }
+          - { label: Image, name: thumbnail, widget: image, required: false }
+      - name: project
+        label: Work Settings
+        file: src/content/config/project.mdx
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Intro, name: intro, widget: markdown, required: false }
+          - { label: Items Per Page, name: per_page, widget: number, value_type: int, required: false }
+          - { label: Image, name: thumbnail, widget: image, required: false }
+          - label: Project Tags
+            name: project_tags
+            widget: list
+            required: false
+            fields:
+              - { label: Name, name: name, widget: string }
+              - { label: Title, name: title, widget: string, required: false }
+              - { label: Description, name: description, widget: text, required: false }
+              - { label: Intro, name: intro, widget: text, required: false }
+              - { label: Image, name: thumbnail, widget: image, required: false }
+      - name: shop
+        label: Shop Settings
+        file: src/content/config/shop.mdx
+        fields:
+          - { label: Items Per Page, name: per_page, widget: number, value_type: int, required: false }
+          - label: Product Categories
+            name: product_categories
+            widget: list
+            required: false
+            fields:
+              - { label: Name, name: name, widget: string }
+              - { label: Title, name: title, widget: string, required: false }
+              - { label: Description, name: description, widget: text, required: false }
+              - { label: Intro, name: intro, widget: text, required: false }
+              - { label: Image, name: thumbnail, widget: image, required: false }
+      - name: navigation
+        label: Navigation
+        file: src/content/config/navigation.mdx
+        fields:
+          - label: Main Menu
+            name: main_menu
+            widget: list
+            required: false
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: Href, name: href, widget: string }
+          - label: Footer Menus
+            name: footer_menus
+            widget: list
+            required: false
+            fields:
+              - { label: Label, name: label, widget: string }
+              - label: Links
+                name: links
+                widget: list
+                required: false
+                fields:
+                  - { label: Label, name: label, widget: string }
+                  - { label: Href, name: href, widget: string }
+      - name: contact
+        label: Contact
+        file: src/content/config/contact.mdx
+        fields:
+          - { label: Email, name: email, widget: string, required: false }
+          - { label: Phone Label, name: phone_label, widget: string, required: false }
+          - { label: Phone Link, name: phone_link, widget: string, required: false }
+      - name: style
+        label: Style
+        file: src/content/config/style.mdx
+        fields:
+          - label: Surfaces
+            name: surface
+            widget: list
+            required: false
+            fields:
+              - { label: Name, name: name, widget: string }
+              - { label: Class, name: class, widget: string }
+          - label: Icons
+            name: icons
+            widget: list
+            required: false
+            fields:
+              - { label: Name, name: name, widget: string }
+              - { label: Icon, name: icon, widget: image }

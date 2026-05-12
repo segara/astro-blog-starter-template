@@ -2,6 +2,7 @@
 import Button from "@components/navigation/Button.astro";
 import ItemFilter from "@components/navigation/ItemFilter.astro";
 import FormattedDate from "@components/FormattedDate.astro";
+import { renderMarkdown } from "@util/markdown";
 
 const {
   title,
@@ -16,6 +17,7 @@ const {
   filter_type,
 } = Astro.props;
 const { slug } = Astro.params;
+const renderedIntro = intro ? renderMarkdown(intro) : "";
 ---
 
 <div
@@ -34,7 +36,11 @@ const { slug } = Astro.params;
         }
 
         <h1 class="title">{title}</h1>
-        {intro && <div class="subtitle balance py-2"> {intro}</div>}
+        {
+          intro && (
+            <div class="subtitle balance richtext py-2" set:html={renderedIntro} />
+          )
+        }
         {
           tag && (
             <ItemFilter

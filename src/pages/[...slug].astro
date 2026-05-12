@@ -5,11 +5,12 @@ import PageLayoutSplit from "@layouts/PageLayoutSplit.astro";
 import PageLayoutWide from "@layouts/PageLayoutWide.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("page");
+  const posts = (await getCollection("page")).filter(
+    (post) => post.slug !== "index",
+  );
   let params = posts.map((post) => {
-    let slug = post.slug != "index" ? post.slug : undefined;
     return {
-      params: { slug: slug },
+      params: { slug: post.slug },
       props: { ...post },
     };
   });

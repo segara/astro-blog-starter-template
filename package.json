@@ -18,7 +18,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "cms-proxy-server": "npx @staticcms/proxy-server",
+    "cms-proxy-server": "decap-server",
     "dev:demo": "cross-env BLOG_SLUG=blog PORTFOLIO_SLUG=work SHOP_SLUG=shop MENU_SLUG=menu WEBSITE_LANGUAGE=en CURRENCY=USD UNITS=metric NODE_VERSION=18 SNIPCART_KEY=ZDVjZmQwYmUtMzNlYy00OGEyLTkxMTItMTg4YTI5NGQxN2I3NjM4MjgzOTQyMzA2MTM1NjI1 astro dev"
   },
   "dependencies": {
@@ -45,6 +45,7 @@
     "async-validator": "^4.2.5",
     "body-scroll-lock": "^4.0.0-beta.0",
     "convert": "^4.14.1",
+    "decap-cms-app": "^3.12.2",
     "js-convert-case": "^4.2.0",
     "marked": "^11.1.1",
     "nanostores": "^0.9.5",
@@ -59,6 +60,7 @@
     "@tailwindcss/nesting": "^0.0.0-insiders.565cd3e",
     "astro-compress": "2.2.7",
     "cross-env": "^7.0.3",
+    "decap-server": "^3.7.0",
     "dotenv": "^16.3.1",
     "pagefind": "^1.0.4",
     "postcss-import": "^16.0.0",
