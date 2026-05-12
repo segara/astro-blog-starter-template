@@ -158,6 +158,56 @@ collections:
         fields:
           - { label: Name, name: name, widget: string }
           - { label: Value, name: value, widget: string }
+      - label: Blocks
+        name: blocks
+        widget: list
+        required: false
+        fields:
+          - { label: Type, name: type, widget: string, required: false }
+          - label: Component
+            name: component
+            widget: select
+            options:
+              - ImageGallery
+              - TextImage
+              - RichText
+              - Features
+              - RecentItems
+              - PricingTable
+              - ShopCategories
+              - ShopProducts
+          - { label: Title, name: title, widget: string, required: false }
+          - { label: Content, name: content, widget: markdown, required: false }
+          - { label: Container, name: container, widget: select, options: [sm, md, lg, xl, full, none], required: false }
+          - { label: Template, name: template, widget: string, required: false }
+          - { label: Block Class, name: block_class, widget: string, required: false }
+          - { label: Class, name: class, widget: string, required: false }
+          - { label: Thumbnail, name: thumbnail, widget: image, required: false }
+          - { label: Reverse, name: reverse, widget: boolean, required: false }
+          - { label: Image Size, name: image_size, widget: string, required: false }
+          - { label: Aspect Ratio, name: aspect, widget: number, value_type: float, required: false }
+          - { label: Animate, name: animate, widget: boolean, required: false }
+          - label: Images
+            name: images
+            widget: list
+            required: false
+            fields:
+              - { label: Title, name: title, widget: string, required: false }
+              - { label: Image, name: image, widget: image }
+      - label: Style
+        name: style
+        widget: object
+        required: false
+        fields:
+          - { label: Template, name: template, widget: select, options: [full, split], required: false }
+          - { label: Hero Template, name: hero_template, widget: select, options: [plain, image], required: false }
+          - { label: Container, name: container, widget: select, options: [sm, md, lg, xl, full, none], required: false }
+          - { label: Card Template, name: card_template, widget: select, options: [grid, flex], required: false }
+          - { label: Hero Image Opacity, name: hero_image_opacity, widget: string, required: false }
+          - { label: Page Class, name: page_class, widget: string, required: false }
+          - { label: Content Class, name: content_class, widget: string, required: false }
+          - { label: Block Class, name: block_class, widget: string, required: false }
+          - { label: Hero Class, name: hero_class, widget: string, required: false }
       - { label: Body, name: body, widget: markdown, required: false }
 
   - name: product
