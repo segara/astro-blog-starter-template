@@ -1,48 +1,67 @@
-let lang = import.meta.env.WEBSITE_LANGUAGE;
-let currency = import.meta.env.CURRENCY;
+const DEFAULT_LANG = "en";
+const DEFAULT_CURRENCY = "USD";
 
-if(!lang && typeof document === 'undefined') {
-    throw new Error("WEBSITE_LANGUAGE is not defined, please define it in .env file or rename the env.txt to .env");
+function getDocument(): Document | undefined {
+  return typeof document === "undefined" ? undefined : document;
 }
-if (!lang) lang = document.documentElement.lang;
-if (!currency)
-    currency = document.documentElement.dataset.currency
-        ? document.documentElement.dataset.currency
-        : 'USD';
 
-let langCode = 'en-US';
-if (lang.length === 2) langCode = `${lang}-${lang.toUpperCase()}`;
-if (lang === 'en') langCode = 'en-US';
-if (lang.length === 5) langCode = lang;
+function getLang(): string {
+  return (
+    import.meta.env.WEBSITE_LANGUAGE ||
+    getDocument()?.documentElement.lang ||
+    DEFAULT_LANG
+  );
+}
+
+function getCurrency(): string {
+  return (
+    import.meta.env.CURRENCY ||
+    getDocument()?.documentElement.dataset.currency ||
+    DEFAULT_CURRENCY
+  );
+}
+
+function getLangCode(): string {
+  const lang = getLang();
+
+  if (lang === "en") return "en-US";
+  if (lang.length === 2) return `${lang}-${lang.toUpperCase()}`;
+  if (lang.length === 5) return lang;
+
+  return "en-US";
+}
 
 export function formatTime(time: string): string {
-    let startDate = new Date();
-    const offset = startDate.getTimezoneOffset();
-    const timeArr = time.split(':');
-    const BaseTime = `${offset / 60 + parseInt(timeArr[0], 10) / 1}:${timeArr[1]}`;
-    let newTime = new Date('1970-01-01T' + BaseTime + 'Z').toLocaleTimeString(langCode, {
-        hour: 'numeric',
-        minute: 'numeric'
-    });
+  let startDate = new Date();
+  const offset = startDate.getTimezoneOffset();
+  const timeArr = time.split(":");
+  const BaseTime = `${offset / 60 + parseInt(timeArr[0], 10) / 1}:${timeArr[1]}`;
+  let newTime = new Date("1970-01-01T" + BaseTime + "Z").toLocaleTimeString(
+    getLangCode(),
+    {
+      hour: "numeric",
+      minute: "numeric",
+    },
+  );
 
-    return newTime;
+  return newTime;
 }
 
 export function formatDate(date: Date): string {
-    const newDate = date.toLocaleDateString(langCode, {
-        year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-    });
+  const newDate = date.toLocaleDateString(getLangCode(), {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
 
-    return newDate;
+  return newDate;
 }
 
 export function formatPrice(price: number): string {
-    const formattedPrice = new Intl.NumberFormat(langCode, {
-        style: 'currency',
-        currency: currency
-    }).format(price);
+  const formattedPrice = new Intl.NumberFormat(getLangCode(), {
+    style: "currency",
+    currency: getCurrency(),
+  }).format(price);
 
-    return formattedPrice.replaceAll(/\s/g, '');
+  return formattedPrice.replaceAll(/\s/g, "");
 }
