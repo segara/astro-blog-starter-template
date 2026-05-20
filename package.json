@@ -46,7 +46,7 @@
     "body-scroll-lock": "^4.0.0-beta.0",
     "convert": "^4.14.1",
     "decap-cms-app": "^3.12.2",
-    "imagetools-core": "^9.1.0",
+    "imagetools-core": "3.0.2",
     "js-convert-case": "^4.2.0",
     "marked": "^11.1.1",
     "nanostores": "^0.9.5",
@@ -57,6 +57,11 @@
     "vue": "^3.4.13",
     "vue3-popper": "^1.5.0",
     "vue3-toastify": "^0.2.1"
+  },
+  "overrides": {
+    "imagetools-core": {
+      "sharp": "0.34.5"
+    }
   },
   "devDependencies": {
     "@tailwindcss/nesting": "^0.0.0-insiders.565cd3e",
