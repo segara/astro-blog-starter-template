@@ -1,5 +1,6 @@
 {
 	"name": "10billion",
+	"pages_build_output_dir": "./dist",
 	"compatibility_date": "2025-10-08",
 	"compatibility_flags": ["nodejs_compat"],
 	"main": "./dist/_worker.js/index.js",
