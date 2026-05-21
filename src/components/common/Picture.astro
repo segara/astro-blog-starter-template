@@ -1,0 +1,106 @@
+---
+import { Picture as AstroPicture } from "astro:assets";
+import { resolveImage } from "@util/images";
+
+const {
+  src,
+  attributes = {},
+  artDirectives: _artDirectives,
+  breakpoints: _breakpoints,
+  format,
+  formats,
+  fallbackFormat,
+  layout: _layout,
+  aspect,
+  ar,
+  fit,
+  objectFit,
+  position: _position,
+  placeholder: _placeholder,
+  slot: _slot,
+  width,
+  height,
+  style,
+  class: className,
+  ...props
+} = Astro.props;
+
+const resolvedSrc = resolveImage(src);
+const pictureAttributes = attributes.picture ?? {};
+const imgAttributes = attributes.img ?? {};
+const sourceFormat = typeof resolvedSrc === "object" ? resolvedSrc?.format : "";
+const shouldPassthrough = sourceFormat === "gif" || sourceFormat === "svg";
+const requestedFormats = Array.isArray(formats)
+  ? formats
+  : Array.isArray(format)
+    ? format
+    : format
+      ? [format]
+      : undefined;
+
+const toNumber = (value) => {
+  if (typeof value === "number") return value;
+  if (typeof value === "string" && value.trim()) return Number.parseFloat(value);
+  return undefined;
+};
+
+const ratio = toNumber(aspect ?? ar);
+let imageWidth = toNumber(width);
+let imageHeight = toNumber(height);
+
+if (ratio && imageWidth && !imageHeight) {
+  imageHeight = Math.round(imageWidth / ratio);
+}
+
+if (ratio && imageHeight && !imageWidth) {
+  imageWidth = Math.round(imageHeight * ratio);
+}
+
+const objectFitValue =
+  objectFit ?? (fit === "cover" || fit === "contain" ? fit : undefined);
+const imgStyle = [
+  imgAttributes.style,
+  style,
+  objectFitValue ? `object-fit: ${objectFitValue}` : "",
+]
+  .filter(Boolean)
+  .join("; ");
+const imgClass = [imgAttributes.class, className].filter(Boolean).join(" ");
+const sharedProps = {
+  ...props,
+  ...imgAttributes,
+  src: resolvedSrc,
+  width: imageWidth,
+  height: imageHeight,
+  widths: props.widths,
+  class: imgClass || undefined,
+  style: imgStyle || undefined,
+};
+const rawImageProps = {
+  ...props,
+  ...imgAttributes,
+  src: typeof resolvedSrc === "object" ? resolvedSrc?.src : resolvedSrc,
+  width:
+    imageWidth ??
+    (typeof resolvedSrc === "object" ? resolvedSrc?.width : undefined),
+  height:
+    imageHeight ??
+    (typeof resolvedSrc === "object" ? resolvedSrc?.height : undefined),
+  class: imgClass || undefined,
+  style: imgStyle || undefined,
+};
+---
+
+{
+  resolvedSrc &&
+    (shouldPassthrough ? (
+      <img {...rawImageProps} />
+    ) : (
+      <AstroPicture
+        {...sharedProps}
+        formats={requestedFormats}
+        fallbackFormat={fallbackFormat}
+        pictureAttributes={pictureAttributes}
+      />
+    ))
+}

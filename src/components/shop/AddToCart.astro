@@ -1,7 +1,8 @@
 ---
 import { Icon } from "astro-icon/components";
 import { t } from "@util/translate";
-import { importImage } from "astro-imagetools/api";
+import { getImage } from "astro:assets";
+import { resolveImage } from "@util/images";
 import ProductPrice from "./ProductPrice.vue";
 const {
   thumbnail,
@@ -24,9 +25,10 @@ const {
 } = Astro.props;
 const bas_url = import.meta.env.SHOP_SLUG;
 const productPrice = offer_price > 0 ? offer_price : price;
-const thumb = await importImage(
-  `${thumbnail}?w=120&h=120&ar=1&position=entropy`,
-);
+const resolvedThumbnail = resolveImage(thumbnail);
+const thumb = resolvedThumbnail
+  ? await getImage({ src: resolvedThumbnail, width: 120, height: 120 })
+  : null;
 let customOption = {};
 /* SET ALL PRODUCT OPTIONS */
 if (is_digital) {
@@ -136,7 +138,7 @@ if (variations && variations.length > 0) {
     data-item-price={productPrice}
     data-item-url={`/${bas_url}/${slug}`}
     data-item-description={description}
-    data-item-image={thumb}
+    data-item-image={thumb?.src}
     data-item-name={title}
     {...customOption}
   >

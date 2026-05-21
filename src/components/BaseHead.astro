@@ -1,7 +1,8 @@
 ---
 import { getEntry } from "astro:content";
 import { ViewTransitions } from "astro:transitions";
-import { importImage } from "astro-imagetools/api";
+import { getImage } from "astro:assets";
+import { resolveImage } from "@util/images";
 import "../styles/global.css";
 
 const { data } = await getEntry("config", "about");
@@ -14,11 +15,12 @@ interface Props {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const { title, description, thumbnail } = Astro.props;
-const searchImage = !!thumbnail
-  ? await importImage(`${thumbnail}?w=120&h=120&ar=1&position=entropy`)
+const resolvedThumbnail = resolveImage(thumbnail);
+const searchImage = resolvedThumbnail
+  ? await getImage({ src: resolvedThumbnail, width: 120, height: 120 })
   : null;
-const socialImage = !!thumbnail
-  ? await importImage(`${thumbnail}?w=1200&h=630&ar=1&position=entropy`)
+const socialImage = resolvedThumbnail
+  ? await getImage({ src: resolvedThumbnail, width: 1200, height: 630 })
   : null;
 
 const pageTitle = `${title} | ${data.sitename}`;
@@ -41,7 +43,7 @@ const pageTitle = `${title} | ${data.sitename}`;
   searchImage && (
     <meta
       data-pagefind-meta="image[content]"
-      content={searchImage}
+      content={searchImage.src}
       property="search:image"
     />
   )
@@ -52,14 +54,14 @@ const pageTitle = `${title} | ${data.sitename}`;
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-{socialImage && <meta property="og:image" content={socialImage} />}
+{socialImage && <meta property="og:image" content={socialImage.src} />}
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={Astro.url} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
-{socialImage && <meta property="twitter:image" content={socialImage} />}
+{socialImage && <meta property="twitter:image" content={socialImage.src} />}
 
 <script is:inline>
   const setDarkMode = () => {

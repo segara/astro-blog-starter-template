@@ -1,5 +1,4 @@
 import { defineConfig } from "astro/config";
-import { astroImageTools } from "astro-imagetools";
 import icon from "astro-icon";
 import mdx from "@astrojs/mdx";
 import m2dx from "astro-m2dx";
@@ -32,7 +31,6 @@ export default defineConfig({
     vue({
       appEntrypoint: "/src/pages/_app",
     }),
-    astroImageTools,
   ],
   markdown: {
     extendDefaultPlugins: true,
@@ -56,7 +54,14 @@ export default defineConfig({
     ],
   },
   vite: {
-    build: {
+      assetsInclude: ['**/*.jpg', '**/*.jpeg', '**/*.png', '**/*.webp'],
+      build: {
+        optimizeDeps: {
+        include: ['vue3-popper'],
+      },
+      ssr: {
+        noExternal: ['vue3-popper'],
+      },
       rollupOptions: {
         external: [
           "/_pagefind/pagefind.js",

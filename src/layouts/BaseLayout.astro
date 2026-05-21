@@ -1,7 +1,7 @@
 ---
 import { getEntry } from "astro:content";
 import { marked } from "marked";
-import { Picture } from "astro-imagetools/components";
+import Picture from "@components/common/Picture.astro";
 import BaseHead from "@components/BaseHead.astro";
 import Header from "@components/Header.astro";
 import Footer from "@components/Footer.astro";
@@ -67,7 +67,7 @@ const contact = await getEntry("config", "contact");
     </Footer>
     <Init client:idle />
 
-    <ContactDialog client:idle contact={contact.data.form}>
+    <ContactDialog client:only="vue" contact={contact.data.form}>
       {
         contact?.data?.form?.intro && (
           <div
