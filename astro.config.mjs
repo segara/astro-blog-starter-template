@@ -19,10 +19,15 @@ const m2dxOptions = {
   unwrapImages: true,
   autoImports: true,
 };
+const site = (
+  process.env.SITE_URL ??
+  process.env.CF_PAGES_URL ??
+  "https://10billion.pages.dev"
+).replace(/\/$/, "");
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://nebulix.unfolding.io",
+  site,
   integrations: [
     icon(),
     mdx({}),

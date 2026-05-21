@@ -3,8 +3,8 @@ backend:
   branch: main
 
 local_backend: true
-site_url: https://nebulix.unfolding.io
-logo_url: https://nebulix.unfolding.io/logo.svg
+site_url: https://10billion.pages.dev
+logo_url: /logo.svg
 media_folder: src/assets
 public_folder: /src/assets
 search: true
