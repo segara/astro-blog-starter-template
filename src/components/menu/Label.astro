@@ -1,20 +1,24 @@
 ---
 import { t } from "@util/translate";
 import { Icon } from "astro-icon/components";
-import Popper from "vue3-popper";
 const { name } = Astro.props;
+const label = t(name);
 ---
 
-<button class="text-sm leading-none tracking-wider" aria-label={t(name)}>
-  <Popper
-    content={t(name)}
-    client:visible
-    hover
-    placement="top"
-    offsetDistance="1"
+<button
+  type="button"
+  class="group relative text-sm leading-none tracking-wider"
+  aria-label={label}
+>
+  <span
+    class="block transition-colors duration-500 hover:text-primary group-focus-visible:text-primary"
   >
-    <span class="block transition-colors duration-500 hover:text-primary">
-      <Icon name={name} class="pointer-events-none h-8 w-10 px-1" />
-    </span>
-  </Popper>
+    <Icon name={name} class="pointer-events-none h-8 w-10 px-1" />
+  </span>
+  <span
+    aria-hidden="true"
+    class="pointer-events-none absolute bottom-full left-1/2 z-20 mb-2 -translate-x-1/2 whitespace-nowrap rounded-sm bg-primary px-2 py-1 text-xs text-light opacity-0 shadow-lg transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100"
+  >
+    {label}
+  </span>
 </button>

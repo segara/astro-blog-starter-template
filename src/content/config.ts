@@ -101,18 +101,38 @@ const blocks = z
 	)
 	.optional()
 
-const style = z.object({
-	template: z.string().optional(),
-	card_template: z.string().optional(),
-	hero_template: z.string().optional(),
-	hero_surface: z.string().optional(),
-	hero_image_opacity: z.string().optional(),
-	container: z.string().optional(),
-	page_class: z.string().optional(),
-	content_class: z.string().optional(),
-	block_class: z.string().optional(),
-	hero_class: z.string().optional()
-})
+const optionalString = z.preprocess(
+	(val) => (val === null || val === '' ? undefined : val),
+	z.string().optional()
+)
+
+const defaultStyle = {
+	template: 'split',
+	card_template: 'grid',
+	hero_template: 'image',
+	container: 'md'
+}
+
+const style = z
+	.preprocess(
+		(val) => (val === null || val === undefined ? {} : val),
+		z.object({
+			template: optionalString,
+			card_template: optionalString,
+			hero_template: optionalString,
+			hero_surface: optionalString,
+			hero_image_opacity: optionalString,
+			container: optionalString,
+			page_class: optionalString,
+			content_class: optionalString,
+			block_class: optionalString,
+			hero_class: optionalString
+		})
+	)
+	.transform((val) => ({
+		...defaultStyle,
+		...val
+	}))
 
 const blog = defineCollection({
 	type: 'content',
