@@ -94,6 +94,15 @@ collections:
               - { label: Intro, name: intro, widget: text, required: false }
               - { label: Price, name: price, widget: string, required: false }
               - { label: Price Suffix, name: price_suffix, widget: string, required: false }
+              - label: Features
+                name: features
+                widget: list
+                required: false
+                fields:
+                  - { label: Label, name: label, widget: string, required: false }
+                  - { label: Value, name: value, widget: string, required: false }
+                  - { label: Icon, name: icon, widget: string, required: false }
+                  - { label: Icon Class, name: icon_class, widget: string, required: false }
       - label: Style
         name: style
         widget: object
