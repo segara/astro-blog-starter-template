@@ -1,20 +1,14 @@
 export function slugify(str: string): string {
 	if (!str || str === '') return ''
-	str = str.replace(/^\s+|\s+$/g, '')
-	str = str.toLowerCase()
-	const from =
-		'ÁÄÂÀÃÅČÇĆĎÉĚËÈÊẼĔȆÍÌÎÏŇÑÓÖÒÔÕØŘŔŠŤÚŮÜÙÛÝŸŽáäâàãåčçćďéěëèêẽĕȇíìîïňñóöòôõøðřŕšťúůüùûýÿžþÞĐđßÆa·/_,:;'
-	const to =
-		'AAAAAACCCDEEEEEEEEIIIINNOOOOOORRSTUUUUUYYZaaaaaacccdeeeeeeeeiiiinnooooooorrstuuuuuyyzbBDdBAa------'
-	for (let i = 0, l = from.length; i < l; i++) {
-		str = str.replace(new RegExp(from.charAt(i), 'g'), to.charAt(i))
-	}
-	str = str
-		.replace(/[^a-z0-9 -]/g, '')
-		.replace(/\s+/g, '-')
-		.replace(/-+/g, '-')
-
 	return str
+		.trim()
+		.toLowerCase()
+		.normalize('NFD')
+		.replace(/[\u0300-\u036f]/g, '')
+		.normalize('NFC')
+		.replace(/[^\p{Letter}\p{Number}]+/gu, '-')
+		.replace(/-+/g, '-')
+		.replace(/^-|-$/g, '')
 }
 
 export function getArchiveNav(
@@ -40,12 +34,14 @@ export function getPagination(
 	filters: string[] | any,
 	data: any,
 	type: string
-): Array<{ params: { slug: string }; props: any }[] | false> {
+): Array<{ params: { slug: string }; props: any }> {
 	return filters.flatMap((filter) => {
 		const filterSlug = slugify(filter)
+		if (!filterSlug) return []
+
 		const filterPosts = posts.filter((post) => post.data[type] && post.data[type].includes(filter))
 
-		if (filterPosts.length === 0) return false
+		if (filterPosts.length === 0) return []
 		const totalPages = Math.ceil(filterPosts.length / data.per_page)
 
 		if (totalPages > 1) {

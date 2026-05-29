@@ -1,6 +1,10 @@
 ---
 const { filters, className, links, active, base_url, type } = Astro.props;
 import { slugify } from "@util/helpers";
+
+const filterItems = (filters || [])
+  .map((filter) => ({ filter, slug: slugify(filter) }))
+  .filter(({ filter, slug }) => filter && (!links || slug));
 ---
 
 <div
@@ -8,10 +12,10 @@ import { slugify } from "@util/helpers";
 >
   {
     !!links &&
-      filters.map((filter) => (
+      filterItems.map(({ filter, slug }) => (
         <a
           href={`/${base_url}${
-            filter === active ? "" : `/${type || "tag"}/${slugify(filter)}`
+            filter === active ? "" : `/${type || "tag"}/${slug}`
           }`}
           class={`block rounded-md px-2 py-0.5 text-xs uppercase tracking-widest transition-all duration-300 hover:bg-opacity-60 hover:underline
 						${filter == active ? "underline" : ""} `}
@@ -22,7 +26,7 @@ import { slugify } from "@util/helpers";
   }
   {
     !links &&
-      filters.map((filter) => (
+      filterItems.map(({ filter }) => (
         <span class=" block py-0.5 text-xs uppercase tracking-widest opacity-90">
           {filter}
         </span>
