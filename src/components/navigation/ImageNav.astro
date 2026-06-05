@@ -1,0 +1,98 @@
+---
+import { t } from "@util/translate";
+import { getSafeReturnPath } from "@util/helpers";
+
+const { translations = { next: t("next"), prev: t("prev"), close: t("close") } } = Astro.props;
+
+/* Logic moved to client-side script for better performance and to handle dynamic URL params */
+---
+
+<div id="image-nav" class="contents">
+  <a
+    id="close-link"
+    href="/"
+    class="fade-in absolute right-0 top-0 z-50 m-4 h-12 w-12 flex items-center justify-center cursor-pointer"
+    aria-label={translations.close}
+    data-astro-history="back"
+    data-astro-prefetch="false"
+  >
+    <slot name="close" />
+  </a>
+  <div
+    class="fade-in pointer-events-none absolute bottom-1/2 right-0 z-50 flex w-full justify-between p-2"
+  >
+    <a
+      id="prev-link"
+      href="#"
+      aria-label={translations.prev}
+      data-astro-history="replace"
+      class="pointer-events-auto m-4 cursor-pointer hidden"
+    >
+      <slot name="prev" />
+    </a>
+    <a
+      id="next-link"
+      href="#"
+      aria-label={translations.next}
+      data-astro-history="replace"
+      class="pointer-events-auto m-4 ml-auto cursor-pointer hidden"
+    >
+      <slot name="next" />
+    </a>
+  </div>
+  <slot />
+</div>
+
+<script is:inline>
+  function initImageNav() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const index = parseInt(urlParams.get("index"));
+    const galleryParam = urlParams.get("gallery") || "";
+    const gallery = galleryParam ? galleryParam.split(",") : [];
+    const returnTo = urlParams.get("returnTo") || "/";
+
+    const closeLink = document.getElementById("close-link");
+    const prevLink = document.getElementById("prev-link");
+    const nextLink = document.getElementById("next-link");
+
+    if (closeLink) {
+      closeLink.href = returnTo;
+    }
+
+    const getGalleryLink = (url, idx) => {
+      const params = new URLSearchParams({
+        index: String(idx),
+        gallery: galleryParam,
+        returnTo: returnTo
+      });
+      return `${url}?${params.toString()}`;
+    };
+
+    if (prevLink && index > 0) {
+      prevLink.href = getGalleryLink(gallery[index - 1], index - 1);
+      prevLink.classList.remove("hidden");
+    }
+
+    if (nextLink && index + 1 < gallery.length) {
+      nextLink.href = getGalleryLink(gallery[index + 1], index + 1);
+      nextLink.classList.remove("hidden");
+    }
+  }
+
+  initImageNav();
+  document.addEventListener("astro:after-swap", initImageNav);
+</script>
+
+<style is:global>
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  .fade-in {
+    animation: fadeIn 0.5s;
+  }
+</style>

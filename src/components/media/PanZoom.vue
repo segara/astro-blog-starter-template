@@ -12,7 +12,7 @@
 </template>
 <script setup>
 import Panzoom from "@panzoom/panzoom";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, onUnmounted } from "vue";
 const zoom = ref(null);
 const container = ref(null);
 const panzoom = ref(null);
@@ -28,5 +28,10 @@ onMounted(() => {
     minScale: 0.8,
     overflow: "visible",
   });
+});
+onUnmounted(() => {
+  if (panzoom.value) {
+    panzoom.value.destroy();
+  }
 });
 </script>

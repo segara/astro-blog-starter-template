@@ -114,9 +114,10 @@ export function getImageName(thumbnail: string | null): string | null {
 	return thumbnail.split('/').pop()!.split('.')[0]
 }
 
-export function getImageTransitionName(thumbnail: string | null): string {
+export function getImageTransitionName(thumbnail: any): string {
 	if (!thumbnail) return `not_found_${Math.random()}`
-	return `image_${thumbnail.split('/').pop()!.split('.')[0]}`
+	const path = typeof thumbnail === 'string' ? thumbnail : thumbnail.src
+	return `image_${path.split('/').pop()!.split('.')[0]}`
 }
 
 export function getCategoryData(categories: any[] | undefined, category: string): any | null {

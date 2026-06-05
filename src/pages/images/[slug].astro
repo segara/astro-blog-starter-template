@@ -2,7 +2,7 @@
 import BaseHead from "@components/BaseHead.astro";
 import PanZoom from "@components/media/PanZoom.vue";
 import { toHeaderCase } from "js-convert-case";
-import ImageNav from "@components/navigation/ImageNav.vue";
+import ImageNav from "@components/navigation/ImageNav.astro";
 import { Icon } from "astro-icon/components";
 import { t } from "@util/translate";
 import { getImageTransitionName } from "@util/helpers";
@@ -54,7 +54,7 @@ const title = toHeaderCase(slug);
         <div class="-z-50 hidden">
           <CartButton
             label={t("cart")}
-            client:idle
+            client:load
             transition:persist
             transition:name="cart"
           >
@@ -64,13 +64,12 @@ const title = toHeaderCase(slug);
             transition:persist
             transition:name="snipcart-base"
             snipcartKey={snipcartKey}
-            client:idle
+            client:load
           />
         </div>
       )
     }
     <ImageNav
-      client:idle
       translations={{ next: t("next"), prev: t("prev"), close: t("close") }}
     >
       <Icon name="close" class="w-8" slot="close" />
@@ -79,12 +78,12 @@ const title = toHeaderCase(slug);
 
       <PanZoom
         alt={`image: ${title}`}
-        client:idle
-        transition:name={`${getImageTransitionName(image)}`}
+        client:load
       >
         <Picture
           src={image}
           alt={title}
+          transition:name={`${getImageTransitionName(image)}`}
           attributes={{ img: { class: "max-h-screen " } }}
           breakpoints={[1000, 1280, 1440, 1536, 1920]}
           sizes="100vw"

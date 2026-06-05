@@ -5,6 +5,7 @@ import { t } from "@util/translate";
 import Intersecting from "@components/common/Intersecting.vue";
 import { getImageUrl, getImageTransitionName } from "@util/helpers";
 const { title, images, container, aspect, animate } = Astro.props;
+const returnTo = `${Astro.url.pathname}${Astro.url.search}`;
 const getAnimation = (image) => {
   return animate
     ? getImageTransitionName(image.image)
@@ -36,16 +37,18 @@ if (container === "sm")
         images.map((image, index) => (
           <a
             aria-label={t("enlarge_image")}
-            transition:name={getAnimation(image)}
             style={`--animation-delay: ${(index + 1) * 150}ms`}
             class="fade-up  group relative overflow-hidden rounded-md"
             href={`${getImageUrl(
               image.image,
-            )}?index=${index}&gallery=${gallery.join(",")}`}
+            )}?index=${index}&gallery=${gallery.join(
+              ",",
+            )}&returnTo=${encodeURIComponent(returnTo)}`}
           >
             <div class="transition-transform duration-1000 ease-in group-hover:scale-110 group-hover:duration-[2s]">
               <Picture
                 src={image.image}
+                transition:name={getAnimation(image)}
                 aspect={aspect}
                 position="entropy"
                 alt={image.title}
