@@ -117,6 +117,7 @@ export function getImageName(thumbnail: string | null): string | null {
 export function getImageTransitionName(thumbnail: any): string {
 	if (!thumbnail) return `not_found_${Math.random()}`
 	const path = typeof thumbnail === 'string' ? thumbnail : thumbnail.src
+	if (!path) return `not_found_${Math.random()}`
 	return `image_${path.split('/').pop()!.split('.')[0]}`
 }
 

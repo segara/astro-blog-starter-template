@@ -38,7 +38,7 @@ const contact = await getEntry("config", "contact");
           transition:persist
           transition:name="snipcart-base"
           snipcartKey={snipcartKey}
-          client:idle
+          client:load
         />
       )
     }
@@ -65,7 +65,7 @@ const contact = await getEntry("config", "contact");
         </div>
       </div>
     </Footer>
-    <Init client:idle />
+    <Init client:load />
 
     <ContactDialog client:only="vue" contact={contact.data.form}>
       {

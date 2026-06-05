@@ -17,7 +17,7 @@ const isActive = (href) => {
 };
 ---
 
-<header class="surface-menu nav sticky top-0 z-50" transition:name="nav">
+<header class="surface-menu nav sticky top-0 z-[100] border-b border-primary/10 shadow-sm" transition:name="nav" style="opacity: 1 !important; visibility: visible !important;">
   <nav class="container-xl flex flex-nowrap items-stretch gap-6">
     <a
       href="/"
@@ -45,7 +45,7 @@ const isActive = (href) => {
           <li>
             <CartButton
               label={t("cart")}
-              client:idle
+              client:load
               transition:persist
               transition:name="cart"
             >
@@ -71,12 +71,12 @@ const isActive = (href) => {
             ))}
 
           <li>
-            <ColorSwitch client:idle />
+            <ColorSwitch client:load />
           </li>
 
           <li class="md:hidden">
             <NavMobile
-              client:idle
+              client:load
               translations={{ menu: t("menu"), close: t("close") }}
             >
               <Icon name="menu-solid" class="h-10 w-10" slot="menu" />

@@ -42,6 +42,11 @@ onMounted(() => {
     root.setAttribute(attr, String(state));
   }
 
+  // Set initial states to ensure UI elements (like header) are visible
+  flip("data-is-scrolling-up", true);
+  flip("data-is-top", window.scrollY < 100);
+  flip("data-is-bottom", window.scrollY + window.innerHeight > document.body.offsetHeight - 100);
+
   const scrollHandler = useDebounceFn(() => {
     const pos = window.scrollY;
     const delta = pos - prevPos;

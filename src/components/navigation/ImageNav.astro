@@ -1,6 +1,5 @@
 ---
 import { t } from "@util/translate";
-import { getSafeReturnPath } from "@util/helpers";
 
 const { translations = { next: t("next"), prev: t("prev"), close: t("close") } } = Astro.props;
 
@@ -11,7 +10,7 @@ const { translations = { next: t("next"), prev: t("prev"), close: t("close") } }
   <a
     id="close-link"
     href="/"
-    class="fade-in absolute right-0 top-0 z-50 m-4 h-12 w-12 flex items-center justify-center cursor-pointer"
+    class="image-nav-fade-in absolute right-0 top-0 z-50 m-4 h-12 w-12 flex items-center justify-center cursor-pointer"
     aria-label={translations.close}
     data-astro-history="back"
     data-astro-prefetch="false"
@@ -19,7 +18,7 @@ const { translations = { next: t("next"), prev: t("prev"), close: t("close") } }
     <slot name="close" />
   </a>
   <div
-    class="fade-in pointer-events-none absolute bottom-1/2 right-0 z-50 flex w-full justify-between p-2"
+    class="image-nav-fade-in pointer-events-none absolute bottom-1/2 right-0 z-50 flex w-full justify-between p-2"
   >
     <a
       id="prev-link"
@@ -83,8 +82,8 @@ const { translations = { next: t("next"), prev: t("prev"), close: t("close") } }
   document.addEventListener("astro:after-swap", initImageNav);
 </script>
 
-<style is:global>
-  @keyframes fadeIn {
+<style>
+  @keyframes imageNavFadeIn {
     0% {
       opacity: 0;
     }
@@ -92,7 +91,7 @@ const { translations = { next: t("next"), prev: t("prev"), close: t("close") } }
       opacity: 1;
     }
   }
-  .fade-in {
-    animation: fadeIn 0.5s;
+  .image-nav-fade-in {
+    animation: imageNavFadeIn 0.5s;
   }
 </style>
