@@ -3,12 +3,13 @@
 </template>
 
 <script setup>
-import { watch, ref, onMounted } from "vue";
+import { watch, ref, onMounted, onUnmounted } from "vue";
 import { useWindowSize } from "@vueuse/core";
 import { useDebounceFn } from "@vueuse/core";
 import { showContact } from "@src/store";
 const { width } = useWindowSize();
 const shown = ref(false);
+let contactClickHandler;
 
 onMounted(() => {
   const root = document.documentElement;
@@ -45,7 +46,10 @@ onMounted(() => {
   // Set initial states to ensure UI elements (like header) are visible
   flip("data-is-scrolling-up", true);
   flip("data-is-top", window.scrollY < 100);
-  flip("data-is-bottom", window.scrollY + window.innerHeight > document.body.offsetHeight - 100);
+  flip(
+    "data-is-bottom",
+    window.scrollY + window.innerHeight > document.body.offsetHeight - 100,
+  );
 
   const scrollHandler = useDebounceFn(() => {
     const pos = window.scrollY;
@@ -87,14 +91,21 @@ onMounted(() => {
     });
   }
 
-  /* CONTACT FORM */
-  const contactButtons = document.querySelectorAll("[href='#contact']");
-  contactButtons.forEach((el) => {
-    el.addEventListener("click", (e) => {
+  contactClickHandler = (e) => {
+    const contactLink = e.target.closest?.("a[href='#contact']");
+    if (contactLink) {
       e.preventDefault();
       showContact.set(true);
-    });
-  });
+    }
+  };
+
+  document.addEventListener("click", contactClickHandler);
+});
+
+onUnmounted(() => {
+  if (contactClickHandler) {
+    document.removeEventListener("click", contactClickHandler);
+  }
 });
 /* CREDITS, PLEASE LEAVE THIS IN PLACE */
 watch(width, (val) => {
