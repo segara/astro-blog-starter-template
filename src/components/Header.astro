@@ -17,7 +17,11 @@ const isActive = (href) => {
 };
 ---
 
-<header class="surface-menu nav sticky top-0 z-[100] border-b border-primary/10 shadow-sm" transition:name="nav" style="opacity: 1 !important; visibility: visible !important;">
+<header
+  class="surface-menu nav sticky top-0 z-[100] border-b border-primary/10 shadow-sm"
+  transition:name="nav"
+  style="opacity: 1 !important; visibility: visible !important;"
+>
   <nav class="container-xl flex flex-nowrap items-stretch gap-6">
     <a
       href="/"
@@ -65,7 +69,7 @@ const isActive = (href) => {
                   target="_blank"
                   aria-label={link.label}
                 >
-                  <Icon name={link.icon} class="w-6 h-6" />
+                  <Icon name={link.icon} class="h-6 w-6" />
                 </a>
               </li>
             ))}
@@ -87,41 +91,43 @@ const isActive = (href) => {
                 class="mobile-links nav-links mt-3 w-full text-center"
                 slot="links"
               >
-                {menu && menu.map((link, index) => (
-                  <li
-                    style={`--animation-delay: ${(index + 1) * 100}ms`}
-                    class={`title-md inner w-full border-2 border-transparent transition-all duration-1000 hover:border-current  ${
-                      isActive(link.href)
-                        ? "active font-semibold text-primary"
-                        : ""
-                    }`}
-                  >
-                    <a href={link.href} class={`block py-3`}>
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
+                {menu &&
+                  menu.map((link, index) => (
+                    <li
+                      style={`--animation-delay: ${(index + 1) * 100}ms`}
+                      class={`title-md inner w-full border-2 border-transparent transition-all duration-1000 hover:border-current  ${
+                        isActive(link.href)
+                          ? "active font-semibold text-primary"
+                          : ""
+                      }`}
+                    >
+                      <a href={link.href} class={`block py-3`}>
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
               </ul>
 
               <ul
                 class="relatives flex w-full flex-wrap justify-center gap-2 py-4"
                 slot="social"
               >
-                {social && social.map((link, index) => (
-                  <li
-                    class="inner"
-                    style={`--animation-delay: ${(index + 1) * 100}ms`}
-                  >
-                    <a
-                      href={link.href}
-                      class="grid h-full place-items-center "
-                      target="_blank"
-                      aria-label={link.label}
+                {social &&
+                  social.map((link, index) => (
+                    <li
+                      class="inner"
+                      style={`--animation-delay: ${(index + 1) * 100}ms`}
                     >
-                      <Icon name={link.icon} class="h-8 w-8" />
-                    </a>
-                  </li>
-                ))}
+                      <a
+                        href={link.href}
+                        class="grid h-full place-items-center "
+                        target="_blank"
+                        aria-label={link.label}
+                      >
+                        <Icon name={link.icon} class="h-8 w-8" />
+                      </a>
+                    </li>
+                  ))}
               </ul>
             </NavMobile>
           </li>
@@ -129,6 +135,25 @@ const isActive = (href) => {
       )
     }
   </nav>
+  {
+    menu && (
+      <nav class="container-xl border-t border-primary/10 py-2 md:hidden">
+        <ul class="mobile-quick-nav nav-links flex w-full items-center justify-between gap-2 text-center text-sm font-semibold text-dark dark:text-white">
+          {menu.map((link) => (
+            <li
+              class={`min-w-0 flex-1 ${
+                isActive(link.href) ? "active text-primary" : ""
+              }`}
+            >
+              <a href={link.href} class="block whitespace-nowrap px-1 py-1.5">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )
+  }
 </header>
 <style>
   .nav {
