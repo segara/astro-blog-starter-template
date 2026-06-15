@@ -10,6 +10,7 @@ import { showContact } from "@src/store";
 const { width } = useWindowSize();
 const shown = ref(false);
 let contactClickHandler;
+let contactHashHandler;
 
 onMounted(() => {
   const root = document.documentElement;
@@ -71,11 +72,37 @@ onMounted(() => {
   }, 20);
 
   window.addEventListener("scroll", () => scrollHandler(), { passive: true });
+
+  contactClickHandler = (e) => {
+    const contactLink = e.target.closest?.("a[href='#contact']");
+    if (contactLink) {
+      e.preventDefault();
+      showContact.set(true);
+    }
+  };
+
+  document.addEventListener("click", contactClickHandler);
+
+  contactHashHandler = () => {
+    if (window.location.hash === "#contact") {
+      showContact.set(true);
+    }
+  };
+
+  window.addEventListener("hashchange", contactHashHandler);
+  contactHashHandler();
+
   /* PARALLAX ANIMATIONS */
   const parallaxReveal = document.querySelectorAll(".nebulix-parallax");
-  if (!document.documentElement.dataset.ios) {
+  const canUseScrollTimeline =
+    typeof ViewTimeline !== "undefined" &&
+    typeof CSS !== "undefined" &&
+    typeof CSS.percent === "function";
+
+  if (!document.documentElement.dataset.ios && canUseScrollTimeline) {
     parallaxReveal.forEach((el) => {
       const img = el.querySelector(".parallax");
+      if (!img?.animate) return;
 
       img.animate(
         {
@@ -90,21 +117,14 @@ onMounted(() => {
       );
     });
   }
-
-  contactClickHandler = (e) => {
-    const contactLink = e.target.closest?.("a[href='#contact']");
-    if (contactLink) {
-      e.preventDefault();
-      showContact.set(true);
-    }
-  };
-
-  document.addEventListener("click", contactClickHandler);
 });
 
 onUnmounted(() => {
   if (contactClickHandler) {
     document.removeEventListener("click", contactClickHandler);
+  }
+  if (contactHashHandler) {
+    window.removeEventListener("hashchange", contactHashHandler);
   }
 });
 /* CREDITS, PLEASE LEAVE THIS IN PLACE */

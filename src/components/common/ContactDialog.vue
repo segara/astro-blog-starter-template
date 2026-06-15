@@ -1,7 +1,7 @@
 <template>
   <Transition name="fade">
     <div
-      v-show="$show"
+      v-show="isContactVisible"
       class="bg-dark-blur z-1000 dialog pointer-events-auto fixed inset-0 grid w-full cursor-pointer place-items-center"
       @click="hide()"
     >
@@ -49,14 +49,14 @@ defineProps({
   },
 });
 
-const $show = useStore(showContact);
+const isContactVisible = useStore(showContact);
 
 const hide = () => {
   showContact.set(false);
 };
 
 watch(
-  $show,
+  isContactVisible,
 
   (val) => {
     if (val) { 
