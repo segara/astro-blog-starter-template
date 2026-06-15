@@ -1,6 +1,5 @@
 ---
 import { getEntry } from "astro:content";
-import { ViewTransitions } from "astro:transitions";
 import { getImage } from "astro:assets";
 import { resolveImage } from "@util/images";
 import "../styles/global.css";
@@ -84,5 +83,4 @@ const pageTitle = `${title} | ${data.sitename}`;
   document.addEventListener("astro:after-swap", setDarkMode);
 </script>
 
-<ViewTransitions fallback="swap" />
 <script src="/scroll-timeline.js" is:inline defer></script>
